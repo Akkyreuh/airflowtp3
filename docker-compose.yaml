@@ -47,7 +47,7 @@ services:
     container_name: dvf-airflow-webserver
     command: webserver
     ports:
-      - "8080:8080"
+      - "8081:8080"
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
       interval: 30s
@@ -95,8 +95,8 @@ services:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
     container_name: dvf-namenode
     ports:
-      - "9870:9870"
-      - "9000:9000"
+      - "9871:9870"
+      - "9001:9000"
     environment:
       - CLUSTER_NAME=dvf-cluster
       - CORE_CONF_fs_defaultFS=hdfs://hdfs-namenode:9000

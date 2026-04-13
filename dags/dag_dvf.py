@@ -22,7 +22,7 @@ from airflow.utils.dates import days_ago
 logger = logging.getLogger(__name__)
 
 # ── Constantes ────────────────────────────────────────────────────────────────
-DVF_URL = "https://www.data.gouv.fr/fr/datasets/r/90a98de0-f562-4328-aa16-fe0dd1dca60f"
+DVF_URL = "https://www.data.gouv.fr/api/1/datasets/r/902db087-b0eb-4cbb-a968-0b499bde5bc4"
 WEBHDFS_BASE_URL = "http://hdfs-namenode:9870/webhdfs/v1"
 WEBHDFS_USER = "root"
 HDFS_RAW_PATH = "/data/dvf/raw"
@@ -219,7 +219,7 @@ def pipeline_dvf():
         open_url = f"{WEBHDFS_BASE_URL}{hdfs_path}?op=OPEN&user.name={WEBHDFS_USER}"
         response = requests.get(open_url, allow_redirects=True, timeout=300)
         response.raise_for_status()
-        df = pd.read_csv(io.BytesIO(response.content), sep=",", low_memory=False)
+        df = pd.read_csv(io.BytesIO(response.content), sep=",", low_memory=False, encoding="latin-1")
         logger.info("CSV chargé depuis HDFS : %d lignes, %d colonnes", len(df), len(df.columns))
 
         # TODO 2 : Renommer les colonnes (minuscules, espaces -> _)
